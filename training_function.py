@@ -12,6 +12,34 @@ ROOT_DIR = "/content/drive/MyDrive/CE Project/image"
 CSV_PATH = "/content/drive/MyDrive/CE Project/small.csv"
 
 
+# ==== Split the Sample Dataset ====
+def splitDataframe(total_df, dev_percent, test_percent, random_state=1):
+    """
+    create train, dev and test dataframe
+    :param total_df: total dataframe
+    :param dev_percent: percentage of dev sample size
+    :param test_percent: percentage of test sample size
+    :param random_state: random seed (default = 1)
+    :return: train dataframe, dev dataframe, test dataframe
+    """
+
+    # Random indexing for total dataframe
+    total_df = total_df.sample(frac=1, random_state=random_state)
+
+    # Create split size for indexing
+    total_sample = len(total_df)
+    dev_sample = int(dev_percent * total_sample)
+    test_sample = int(test_percent * total_sample)
+    train_sample = total_sample - dev_sample - test_sample
+
+    # Spliting the dataframe
+    train_df = total_df[0:train_sample]
+    dev_df = total_df[train_sample:train_sample + dev_sample]
+    test_df = total_df[train_sample + dev_sample:]
+
+    return train_df, dev_df, test_df
+
+
 # ==== Create Data Frame Function ====
 def createDataframe(paramreq="Final\nTotal", root_dir=ROOT_DIR, excel_path=EXCEL_PATH):
     """
@@ -52,7 +80,7 @@ def showImg(tensors, label):
 
 
 # ==== Function to train model ====
-def trainModel(train_loader, test_loader, model, lossfun, optimizer, epochs, device = None):
+def trainModel(train_loader, test_loader, model, lossfun, optimizer, epochs, device=None):
     """
     Train the model with given loss function and optimizer
     Args:
@@ -153,6 +181,32 @@ def trainModel(train_loader, test_loader, model, lossfun, optimizer, epochs, dev
         print(f"Test Loss: {valLoss[epochi]}, Test Acc: {valAcc[epochi]}")
 
     return trainLoss, trainAcc, valLoss, valAcc, history, model
+
+
+# ==== Make predictions on dataloader ====
+def makePreds(dataloader, model, device=None):
+    # initialize prediction
+    y_preds = np.zeros((1, 1))
+
+    # Send model to GPU
+    if device:
+        model.to(device)
+
+    # Evaluate the model on dataloader
+    model.eval()
+    for X, _ in dataloader:
+        # Send data to GPU
+        if device:
+            X = X.to(device)
+
+        # Make prediction
+        with torch.no_grad:
+            yHat = model(X)
+
+        # Store yHat on y_preds
+        y_preds = np.concatenate((y_preds, yHat), axis=0)
+
+    return y_preds
 
 
 # ==== Create Custom Dataset Class ====
