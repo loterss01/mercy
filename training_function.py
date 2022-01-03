@@ -6,6 +6,7 @@ from torch.utils.data import Dataset
 import matplotlib.image as mpimg
 import pandas as pd
 import matplotlib.pyplot as plt
+import time
 
 EXCEL_PATH = "/content/drive/MyDrive/CE Project/database.xlsx"
 ROOT_DIR = "/content/drive/MyDrive/CE Project/image"
@@ -109,6 +110,9 @@ def trainModel(train_loader, test_loader, model, lossfun, optimizer, epochs, dev
     # Training Loops
     for epochi in range(epochs):
 
+        # Initialize the time at the start of epoch
+        start_time = time.time()
+
         # Switch model to train mode
         model.train()
 
@@ -169,6 +173,9 @@ def trainModel(train_loader, test_loader, model, lossfun, optimizer, epochs, dev
         valLoss[epochi] = np.mean(batchLoss)
         valAcc[epochi] = np.mean(batchAcc) * 100
 
+        # Stop the time
+        stop_time = time.time()
+
         # Save the best model based on validation Accuracy
         if history["lastAcc"] < (np.mean(batchAcc) * 100):
             history["model"] = model.to('cpu')
@@ -176,9 +183,9 @@ def trainModel(train_loader, test_loader, model, lossfun, optimizer, epochs, dev
             if device:
                 model.to(device)
 
-        print(f"Epochs: {epochi} / {epochs}")
-        print(f"Train Loss: {trainLoss[epochi]}, Train Acc: {trainAcc[epochi]}")
-        print(f"Test Loss: {valLoss[epochi]}, Test Acc: {valAcc[epochi]}")
+        print(f"Epochs: {epochi+1} / {epochs}, Time: {(start_time - stop_time)*1e3:.1f}s")
+        print(f"Train Loss: {trainLoss[epochi]:.6f}, Train Acc: {trainAcc[epochi]:.2f}")
+        print(f"Test Loss: {valLoss[epochi]:.6f}, Test Acc: {valAcc[epochi]:.2f}")
 
     return trainLoss, trainAcc, valLoss, valAcc, history, model
 
