@@ -183,7 +183,7 @@ def trainModel(train_loader, test_loader, model, lossfun, optimizer, epochs, dev
             if device:
                 model.to(device)
 
-        print(f"Epochs: {epochi+1} / {epochs}, Time: {(start_time - stop_time)*1e3:.1f}s")
+        print(f"Epochs: {epochi+1} / {epochs}, Time: {-(start_time - stop_time)*1e6:.1f}s")
         print(f"Train Loss: {trainLoss[epochi]:.6f}, Train Acc: {trainAcc[epochi]:.2f}")
         print(f"Test Loss: {valLoss[epochi]:.6f}, Test Acc: {valAcc[epochi]:.2f}")
 
@@ -192,8 +192,15 @@ def trainModel(train_loader, test_loader, model, lossfun, optimizer, epochs, dev
 
 # ==== Make predictions on dataloader ====
 def makePreds(dataloader, model, device=None):
+    """
+    Make prediction on dataloader in case, test data is too large
+    :param dataloader: Dataloader
+    :param model: Model
+    :param device: Using GPU if needed
+    :return:
+    """
     # initialize prediction
-    y_preds = np.zeros((1, 1))
+    y_preds = np.array([])
 
     # Send model to GPU
     if device:
@@ -211,7 +218,7 @@ def makePreds(dataloader, model, device=None):
             yHat = model(X)
 
         # Store yHat on y_preds
-        y_preds = np.concatenate((y_preds, yHat), axis=0)
+        y_preds = np.concatenate((y_preds, yHat.items()), axis=0)
 
     return y_preds
 
