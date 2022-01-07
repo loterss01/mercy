@@ -186,7 +186,7 @@ def trainModel(train_loader, test_loader, model, lossfun, optimizer, epochs, dev
         print(f"==== Epochs: {epochi+1} / {epochs} ====")
         print(f"Train Loss: {trainLoss[epochi]:.6f}, Train Acc: {trainAcc[epochi]:.2f}")
         print(f"Test Loss: {valLoss[epochi]:.6f}, Test Acc: {valAcc[epochi]:.2f}")
-        print(f"Time: {-(start_time - stop_time)*1e-3:.1f}s")
+        print(f"Time: {-(start_time - stop_time):.1f}s")
 
     return trainLoss, trainAcc, valLoss, valAcc, history, model
 
