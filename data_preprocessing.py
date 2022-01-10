@@ -56,7 +56,7 @@ def plotDistribution(dataframe, title_chart, fname):
     ax.yaxis.set_tick_params(labelsize=14)
     ax.set_ylim([0, max(dataframe.Small.value_counts()) * 1.2])
     for x, y in zip(range(7), dataframe.Small.value_counts().sort_index()):
-        ax.text(x, y + 20, y, va='top', ha='center', fontsize=14)
+        ax.text(x, y * 1.05, y, va='top', ha='center', fontsize=14)
 
     ax.set_xticklabels(["10-20", "20-30", "30-40", "40-50", "50-60", "60-70", "70-80"]
                        , rotation=45)
