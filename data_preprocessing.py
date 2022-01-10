@@ -48,7 +48,7 @@ def plotDistribution(dataframe, title_chart, fname):
     :param title_chart: "The name of title for graph"
     :return ax: "The axes of charts"
     """
-    ax = dataframe.Small.value_counts().sort_index().plot.bar()
+    ax = dataframe.Small.value_counts().sort_index().plot.bar(figsize = (12, 8))
     ax.set_title(title_chart, fontsize=18)
     ax.set_xlabel("RMR Category", fontsize=15)
     ax.set_ylabel("Sample Count", fontsize=15)
