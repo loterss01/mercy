@@ -29,7 +29,7 @@ def summaryParameters(dataframe, fname):
         axs.set_xlim([- 0.5, 4.5])
         axs.set_xticks([0, 1, 2, 3, 4])
         axs.set_xticklabels(
-            ['>' + str(a), str(b) + '-' + str(a), str(c) + '-' + str(b), str(c) + '-' + str(d), str(e) + '-' + str(d)],
+            ['>' + str(a), str(b) + '-' + str(a), str(c) + '-' + str(b), str(d) + '-' + str(c), str(e) + '-' + str(d)],
             fontsize=14)
         axs.yaxis.set_tick_params(labelsize=14)
         axs.set_ylim([0, max(data_apply.value_counts()) * 1.20])
