@@ -58,7 +58,7 @@ def plotDistribution(dataframe, title_chart, fname):
     for x, y in zip(range(7), dataframe.Small.value_counts().sort_index()):
         ax.text(x, y * 1.03, y, va='bottom', ha='center', fontsize=14)
 
-    ax.set_xticklabels(["10-20", "20-30", "30-40", "40-50", "50-60", "60-70", "70-80"]
+    ax.set_xticklabels(["20-30", "30-40", "40-50", "50-60", "60-70", "70-80"]
                        , rotation=45)
     ax.get_figure().savefig(fname, format='svg', dpi=1200)
     return ax
