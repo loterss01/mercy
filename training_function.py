@@ -215,7 +215,7 @@ def makePreds(dataloader, model, device=None):
             X = X.to(device)
 
         # Make prediction
-        with torch.no_grad:
+        with torch.no_grad():
             yHat = model(X)
 
         # Store yHat on y_preds
