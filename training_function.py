@@ -11,6 +11,7 @@ import time
 EXCEL_PATH = "/content/drive/MyDrive/CE Project/database.xlsx"
 ROOT_DIR = "/content/drive/MyDrive/CE Project/image"
 CSV_PATH = "/content/drive/MyDrive/CE Project/small.csv"
+TEMP_PATH = "Checkpoints.pt"
 
 
 # ==== Split the Sample Dataset ====
@@ -179,10 +180,8 @@ def trainModel(train_loader, test_loader, model, lossfun, optimizer, epochs, dev
         # Save the best model based on validation Accuracy
         if history["lastAcc"] < (np.mean(batchAcc) * 100):
             history["lastAcc"] = np.mean(batchAcc) * 100
-            history["model"] = model.state_dict()
+            torch.save(model.state_dict(), TEMP_PATH)
             history["epoch"] = epochi
-            if device:
-                model.to(device)
 
         print(f"==== Epochs: {epochi+1} / {epochs} ====")
         print(f"Train Loss: {trainLoss[epochi]:.6f}, Train Acc: {trainAcc[epochi]:.2f}")
