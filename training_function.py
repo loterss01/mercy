@@ -178,6 +178,7 @@ def trainModel(train_loader, test_loader, model, lossfun, optimizer, epochs, dev
 
         # Save the best model based on validation Accuracy
         if history["lastAcc"] < (np.mean(batchAcc) * 100):
+            history["lastAcc"] = np.mean(batchAcc) * 100
             history["model"] = model.to('cpu')
             history["epoch"] = epochi
             if device:
