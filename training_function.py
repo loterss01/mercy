@@ -186,7 +186,7 @@ def trainModel(train_loader, test_loader, model, lossfun, optimizer, epochs, dev
         
         # Recorded training time
         training_time = -(start_time - stop_time)
-        trainingTime[epochi] = trainingTime
+        trainingTime[epochi] = training_time
 
         print(f"==== Epochs: {epochi+1} / {epochs} ====")
         print(f"Train Loss: {trainLoss[epochi]:.6f}, Train Acc: {trainAcc[epochi]:.2f}")
