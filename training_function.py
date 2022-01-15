@@ -103,6 +103,7 @@ def trainModel(train_loader, test_loader, model, lossfun, optimizer, epochs, dev
     valLoss = np.zeros(epochs)
     trainAcc = np.zeros(epochs)
     valAcc = np.zeros(epochs)
+    trainingTime = np.zeros(epochs)
 
     # Sent model to GPU for faster computing
     if device:
@@ -182,13 +183,17 @@ def trainModel(train_loader, test_loader, model, lossfun, optimizer, epochs, dev
             history["lastAcc"] = np.mean(batchAcc) * 100
             torch.save(model.state_dict(), TEMP_PATH)
             history["epoch"] = epochi
+        
+        # Recorded training time
+        training_time = -(start_time - stop_time)
+        trainingTime[epochi] = trainingTime
 
         print(f"==== Epochs: {epochi+1} / {epochs} ====")
         print(f"Train Loss: {trainLoss[epochi]:.6f}, Train Acc: {trainAcc[epochi]:.2f}")
         print(f"Test Loss: {valLoss[epochi]:.6f}, Test Acc: {valAcc[epochi]:.2f}")
-        print(f"Time: {-(start_time - stop_time):.1f}s")
+        print(f"Time: {training_time:.1f}s")
 
-    return trainLoss, trainAcc, valLoss, valAcc, history, model
+    return trainLoss, trainAcc, valLoss, valAcc, trainingTime, history, model
 
 
 # ==== Make predictions on dataloader ====
