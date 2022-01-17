@@ -11,7 +11,6 @@ import time
 EXCEL_PATH = "/content/drive/MyDrive/CE Project/database.xlsx"
 ROOT_DIR = "/content/drive/MyDrive/CE Project/image"
 CSV_PATH = "/content/drive/MyDrive/CE Project/small.csv"
-TEMP_PATH = "Checkpoints.pt"
 
 
 # ==== Split the Sample Dataset ====
@@ -82,7 +81,7 @@ def showImg(tensors, label):
 
 
 # ==== Function to train model ====
-def trainModel(train_loader, test_loader, model, lossfun, optimizer, epochs, device=None):
+def trainModel(train_loader, test_loader, model, lossfun, optimizer, epochs, device=None, path):
     """
     Train the model with given loss function and optimizer
     Args:
@@ -181,7 +180,7 @@ def trainModel(train_loader, test_loader, model, lossfun, optimizer, epochs, dev
         # Save the best model based on validation Accuracy
         if history["lastAcc"] < (np.mean(batchAcc) * 100):
             history["lastAcc"] = np.mean(batchAcc) * 100
-            torch.save(model.state_dict(), TEMP_PATH)
+            torch.save(model.state_dict(), path)
             history["epoch"] = epochi
         
         # Recorded training time
