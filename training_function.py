@@ -81,7 +81,7 @@ def showImg(tensors, label):
 
 
 # ==== Function to train model ====
-def trainModel(train_loader, test_loader, model, lossfun, optimizer, epochs, device=None, path):
+def trainModel(train_loader, test_loader, model, lossfun, optimizer, epochs, device=None, path = "Checkpoint.pt"):
     """
     Train the model with given loss function and optimizer
     Args:
